@@ -7,7 +7,11 @@ const problemSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        // subject of the problem
+        subject: {
+            type: String,
+            required: true,
+        },
+        // tag of the problem
         tag: {
             type: String,
             required: true,
