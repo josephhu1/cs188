@@ -19,6 +19,10 @@ const problemSchema = mongoose.Schema(
         answer: {
             type: String,
             required: true,
+        },
+        source: {
+            type: String,
+            required: true,
         }
     },
     {
@@ -26,4 +30,4 @@ const problemSchema = mongoose.Schema(
     }
 );
 
-export const Problem = mongoose.model('Cat', problemSchema);
+export const Problem = mongoose.model('Problem', problemSchema);

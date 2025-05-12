@@ -10,7 +10,9 @@ router.post("/problems", async (request, response) => {
             !request.body.image ||
             !request.body.subject ||
             !request.body.tag ||
-            !request.body.answer
+            !request.body.answer ||
+            !request.body.source
+
         ) {
             return response.status(400).send({
                 message: "Send all fields"
@@ -20,7 +22,8 @@ router.post("/problems", async (request, response) => {
             image: request.body.image,
             subject: request.body.subject,
             tag: request.body.tag,
-            answer: request.body.answer
+            answer: request.body.answer,
+            source: request.body.source
         };
 
         const problem = await Problem.create(newProblem);

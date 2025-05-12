@@ -32,13 +32,13 @@ const Subject = () => {
       tag.toLowerCase().includes(searchTag.toLowerCase())
       
     )
-    console.log(filteredTags)
     setFilteredTags(filteredSearch)
   }
   return (
     <div>
       <Navbar/>
       <div className='flex-col flex items-center justify-center'>
+        <div className='text-3xl m-3'>What topic in particular?</div>
       <input className = "w-full max-w-md px-4 py-2 border border-black-300 rounded-lg m-10"
       type = "text" value = {search} onChange={handleSearch} placeholder='Search'></input>
       <div>
