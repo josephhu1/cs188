@@ -3,12 +3,14 @@ import axios from 'axios';
 import Navbar from './Navbar';
 import { useParams, useNavigate } from 'react-router-dom';
 import TagSquare from './TagSquare';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Subject = () => {
   const navigate = useNavigate();
   const {subject} = useParams();
   const [tags, setTags] = useState([]);
   const [search, setSearch] = useState("");
+  const {user} = useAuthContext();
   useEffect(() => {
     axios
         .get(`http://localhost:5555/problems/tags/${subject}`)
@@ -34,6 +36,11 @@ const Subject = () => {
     )
     setFilteredTags(filteredSearch)
   }
+
+  if (!user) {
+    navigate("/login")
+  }
+
   return (
     <div>
       <Navbar/>

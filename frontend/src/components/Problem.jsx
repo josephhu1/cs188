@@ -59,7 +59,9 @@ const Problem = () => {
     const handleNext = () => {
       navigate(0)
     }
-
+    if (!user) {
+      navigate("/login")
+    }
 
   return (
     <div>
