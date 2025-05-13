@@ -19,6 +19,10 @@ const userInfo = mongoose.Schema(
             type: Number,
             default: 0,
           },
+          calculus_streak: {
+            type: Number,
+            default: 0,
+          },
           pfp: {
             type: String,
             default: "https://asteriaproblems.s3.us-east-2.amazonaws.com/Default_pfp.jpg"

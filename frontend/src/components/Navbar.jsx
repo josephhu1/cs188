@@ -9,14 +9,9 @@ import { useAuthContext } from '../hooks/useAuthContext';
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export default function Navbar() {
   const { user } = useAuthContext()
   const navigate = useNavigate()
-  const [userData, setUserData] = useState({})
   const handleClickHome = () => {
     navigate("/")
   }
@@ -31,7 +26,7 @@ export default function Navbar() {
   const handleLogin = () => {
     navigate("/login")
   }
-
+  const [userData, setUserData] = useState({})
   if (user) {
     axios
         .get(`http://localhost:5555/user/username/${user.username}`)
