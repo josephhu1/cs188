@@ -76,5 +76,20 @@ router.get("/username/:username", async (request, response) => {
     }
 });
 
+// add points to user
+router.post("/points/:username", async (request, response) => {
+    try {
+
+        const {username} = request.params;
+        const user = await User.findOne({ username: username});
+        user.points = user.points + 100
+        await user.save()
+        return response.status(200).json({message: "Added points successfully", user});
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message: error.message})
+    }
+});
+
 
 export default router;

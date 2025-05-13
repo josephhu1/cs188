@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import Navbar from './Navbar';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Problem = () => {
+  const { user } = useAuthContext()
   const navigate = useNavigate();
   const {subject, tag} = useParams();
   const [problem, setProblem] = useState({});
@@ -37,6 +39,15 @@ const Problem = () => {
         setSolved(true);
         setReveal(true);
         setIncorrect(false);
+        axios
+            .post(`http://localhost:5555/user/points/${user.username}`)
+            .then((response) => {
+                if (!response){
+                    throw new Error("User does not exist");
+                }
+              }).catch((error) => {
+                alert("User does not exist")
+              });
       }
       else {
         setIncorrect(true);
@@ -75,7 +86,6 @@ const Problem = () => {
         )}
         {solved && (
           <div className='m-3 text-xl bg-green-500/40'>Correct answer! +100 points</div>
-          // TODO: add points
         )}
         {reveal && (
           <div className='m-3 text-xl bg-yellow-500/40'>Solution: {problem.answer}</div>
