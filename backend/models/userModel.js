@@ -18,7 +18,16 @@ const userInfo = mongoose.Schema(
           testing_streak: {
             type: Number,
             default: 0,
+          },
+          pfp: {
+            type: String,
+            default: "https://asteriaproblems.s3.us-east-2.amazonaws.com/Default_pfp.jpg"
+          },
+          inventory_pfp : {
+            type: [String],
+            default: []
           }
+
     },
     {
         timestamps: true,

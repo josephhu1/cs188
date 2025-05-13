@@ -3,6 +3,8 @@ import {Routes, Route} from "react-router-dom"
 import Home from "./components/Home"
 import Problem from "./components/Problem"
 import Subject from "./components/Subject"
+import Signup from './components/Signup'
+import Login from './components/Login'
 
 const App = () => {
   return (
@@ -10,6 +12,8 @@ const App = () => {
       <Route path = "/" element = {<Home />} />
       <Route path = "/subject/:subject" element = {<Subject />} />
       <Route path = "/subject/:subject/:tag" element = {<Problem />} />
+      <Route path = "/signup" element = {<Signup />} />
+      <Route path = "/login" element = {<Login />} />
     </Routes>
   );
 }

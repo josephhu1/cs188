@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { Problem } from "./models/problemModel.js";
 import problemsRoute from "./routes/problemsRoute.js"
 import cors from "cors"
+import userRoute from "./routes/userRoute.js"
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.get("/", (request, response) => {
 });
 
 app.use("/problems", problemsRoute);
+app.use("/user", userRoute);
 
 app.listen(PORT, () => {
     console.log(`App is on: ${PORT}`);

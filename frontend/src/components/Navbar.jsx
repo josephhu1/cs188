@@ -4,18 +4,47 @@ import { useNavigate } from 'react-router-dom';
 import { FcGlobe } from "react-icons/fc";
 import { HiBars3 } from "react-icons/hi2";
 import { FaHome } from "react-icons/fa";
-
+import { useLogout } from '../hooks/useLogout';
+import { useAuthContext } from '../hooks/useAuthContext';
+import React, {useState, useEffect} from 'react'
+import axios from 'axios';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Navbar() {
-  const navigate = useNavigate();
+  const { user } = useAuthContext()
+  const navigate = useNavigate()
+  const [userData, setUserData] = useState({})
   const handleClickHome = () => {
-    // enforce login later on
     navigate("/")
   }
+  const { logout } = useLogout()
+  const handleLogout = () => {
+    logout()
+    navigate("/")
+  }
+  const handleRegister = () => {
+    navigate("/signup")
+  }
+  const handleLogin = () => {
+    navigate("/login")
+  }
+
+  if (user) {
+    axios
+        .get(`http://localhost:5555/user/username/${user.username}`)
+        .then((response) => {
+            if (!response){
+                throw new Error("User does not exist");
+            }
+            setUserData(response.data);
+          }).catch((error) => {
+            alert("User does not exist")
+          });
+    }  
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -35,6 +64,7 @@ export default function Navbar() {
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             {/* Profile dropdown */}
+            {user ? (
             <Menu as="div" className="relative ml-3">
               <div>
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
@@ -42,13 +72,11 @@ export default function Navbar() {
                   <span className="sr-only">Open user menu</span>
                   <img
                     alt=""
-                    // TODO: update to user's profile picture
-                    src="https://asteriaproblems.s3.us-east-2.amazonaws.com/Screenshot+2025-05-10+225738.png"
+                    src={userData.pfp}
                     className="size-15 rounded-full"
                   />
                 </MenuButton>
-                {/* TODO: Update text when points increase */}
-                <div className='text-white'>0 points</div>
+                <div className='text-white'>{userData.points} points</div>
               </div>
               <MenuItems
                 transition
@@ -63,8 +91,7 @@ export default function Navbar() {
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="#"
+                  <a onClick={handleLogout}
                     className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
                   >
                     Sign out
@@ -72,6 +99,12 @@ export default function Navbar() {
                 </MenuItem>
               </MenuItems>
             </Menu>
+            ) : (
+            <div className="space-x-15">
+              <button onClick = {handleRegister} className="rounded px-4 py-2 bg-yellow-500 text-white">Register</button>
+              <button onClick = {handleLogin} className="rounded px-4 py-2 bg-green-500 text-white">Login</button>
+            </div>
+            )}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { Problem } from "../models/problemModel.js"
 const router = express.Router();
 
 // Save new problem
-router.post("/problems", async (request, response) => {
+router.post("/", async (request, response) => {
     try {
         if (
             !request.body.image ||
