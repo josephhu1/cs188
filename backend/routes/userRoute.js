@@ -91,5 +91,31 @@ router.post("/points/:username", async (request, response) => {
     }
 });
 
+// increase streak user
+router.post("/streak/:subject/:username", async (request, response) => {
+    try {
+
+        const {subject, username} = request.params;
+        const user = await User.findOne({ username: username});
+        const today = new Date()
+        const stringToday = today.toLocaleDateString()
+        switch (subject){
+            case "Testing":
+                user.testing_streak = user.testing_streak + 1
+                user.testing_date = stringToday
+                break;
+            case "Calculus":
+                user.calculus_streak = user.calculus_streak + 1
+                user.calculus_date = stringToday
+                break;
+        }
+        await user.save()
+        return response.status(200).json({message: "Added streak successfully", user});
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message: error.message})
+    }
+});
+
 
 export default router;

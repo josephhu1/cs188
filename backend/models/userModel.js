@@ -19,9 +19,17 @@ const userInfo = mongoose.Schema(
             type: Number,
             default: 0,
           },
+          testing_date: {
+            type: String,
+            default: "1/1/2000"
+          },
           calculus_streak: {
             type: Number,
             default: 0,
+          },
+          calculus_date: {
+            type: String,
+            default: "1/1/2000"
           },
           pfp: {
             type: String,

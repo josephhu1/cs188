@@ -13,6 +13,16 @@ const Problem = () => {
   const [solved, setSolved] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [incorrect, setIncorrect] = useState(false);
+  const [userData, setUserData] = useState({})
+  const [date, setDate] = useState("")
+  const [streakUpdated, setStreakUpdated] = useState(false);
+  useEffect(() => {
+    const today = new Date()
+    const stringToday = today.toLocaleDateString()
+    setDate(stringToday)
+  }, []);
+
+
   const handleAnswer  = (x) => {
     setAnswer(x.target.value)
   }
@@ -34,11 +44,37 @@ const Problem = () => {
       setIncorrect(false);
       setReveal(true);
     }
+
+    const handleStreak = () => {
+      axios
+        .post(`http://localhost:5555/user/streak/${subject}/${user.username}`)
+        .then((response) => {
+            if (!response){
+                throw new Error("User does not exist");
+            }
+          }).catch((error) => {
+            alert("User does not exist")
+          });
+    }
     const handleSubmit = () => {
       if (answer == problem.answer){
         setSolved(true);
         setReveal(true);
         setIncorrect(false);
+        switch(subject) {
+          case "Testing":
+            if (date != userData.testing_date){
+              setStreakUpdated(true)
+              handleStreak()
+            }
+            break;
+          case "Calculus":
+            if (date != userData.calculus_date){
+              setStreakUpdated(true)
+              handleStreak()
+            }
+            break;
+        }
         axios
             .post(`http://localhost:5555/user/points/${user.username}`)
             .then((response) => {
@@ -48,6 +84,8 @@ const Problem = () => {
               }).catch((error) => {
                 alert("User does not exist")
               });
+        
+
       }
       else {
         setIncorrect(true);
@@ -62,6 +100,18 @@ const Problem = () => {
     if (!user) {
       navigate("/login")
     }
+    if (user) {
+      axios
+          .get(`http://localhost:5555/user/username/${user.username}`)
+          .then((response) => {
+              if (!response){
+                  throw new Error("User does not exist");
+              }
+              setUserData(response.data);
+            }).catch((error) => {
+              alert("User does not exist")
+            });
+      } 
 
   return (
     <div>
@@ -88,6 +138,9 @@ const Problem = () => {
         )}
         {solved && (
           <div className='m-3 text-xl bg-green-500/40'>Correct answer! +100 points</div>
+        )}
+        {streakUpdated && (
+          <div className='m-3 text-xl bg-orange-500/40'>Streak updated!</div>
         )}
         {reveal && (
           <div className='m-3 text-xl bg-yellow-500/40'>Solution: {problem.answer}</div>
