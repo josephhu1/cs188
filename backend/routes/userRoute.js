@@ -117,5 +117,26 @@ router.post("/streak/:subject/:username", async (request, response) => {
     }
 });
 
+// reset streak
+router.post("/streak_reset/:subject/:username", async (request, response) => {
+    try {
+
+        const {subject, username} = request.params;
+        const user = await User.findOne({ username: username});
+        switch (subject){
+            case "Testing":
+                user.testing_streak = 0
+                break;
+            case "Calculus":
+                user.calculus_streak = 0
+                break;
+        }
+        await user.save()
+        return response.status(200).json({message: "Reset streak successfully", user});
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message: error.message})
+    }
+});
 
 export default router;

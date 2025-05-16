@@ -3,6 +3,9 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import SubjectSquare from "./SubjectSquare"
+import { useEffect, useState } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
+
 
 const Home = () => {
     const subjects = [
@@ -11,9 +14,47 @@ const Home = () => {
         {color: "bg-green-500", subject: "x"},
         {color: "bg-blue-500", subject: "y"},
     ];
+    const { user } = useAuthContext()
+    // Check streak
+  const [userData, setUserData] = useState({})
+  const today = new Date()
+  const tmr = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+  if (user) {
+    axios
+        .get(`http://localhost:5555/user/username/${user.username}`)
+        .then((response) => {
+            if (!response){
+                throw new Error("User does not exist");
+            }
+            setUserData(response.data);
+          }).catch((error) => {
+            alert("User does not exist")
+          });
+    if ((userData.calculus_date != today.toLocaleDateString() && userData.calculus_date != tmr.toLocaleDateString()) && userData.calculus_date != undefined){
+        axios
+        .post(`http://localhost:5555/user/streak_reset/Calculus/${user.username}`)
+        .then((response) => {
+            if (!response){
+                throw new Error("User does not exist");
+            }
+          }).catch((error) => {
+            alert("User does not exist")
+          });
+    }
+    if ((userData.testing_date != today.toLocaleDateString() && userData.testing_date != tmr.toLocaleDateString()) && userData.testing_date != undefined){
+        axios
+        .post(`http://localhost:5555/user/streak_reset/Testing/${user.username}`)
+        .then((response) => {
+            if (!response){
+                throw new Error("User does not exist");
+            }
+          }).catch((error) => {
+            alert("User does not exist")
+          });
+    }
+    }
   return (
     <div>
-    {/* <h1 className='text-3xl text-center justify-center leading-none flex items-center'>What topic are you struggling with?</h1> */}
     <Navbar />
     <h1 className='text-3xl text-center mb-0 translate-y-20'>What subject would you like to practice?</h1>
     <div className="flex justify-center items-center min-h-screen">
