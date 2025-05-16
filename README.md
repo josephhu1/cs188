@@ -24,6 +24,7 @@ For CS188: The `.env` file is provided in the Google Drive.
 - Provide username and password
 - Get redirected back to home page
 ### 4. Click on a subject
+- For now, we will just focus on calculus
 ### 5. Choose a topic within the subject
 - Search bar is provided for filtering
 ### 6. Answer the problem
