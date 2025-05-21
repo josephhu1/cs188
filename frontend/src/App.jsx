@@ -5,6 +5,7 @@ import Problem from "./components/Problem"
 import Subject from "./components/Subject"
 import Signup from './components/Signup'
 import Login from './components/Login'
+import Profile from './components/Profile'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Route path = "/subject/:subject/:tag" element = {<Problem />} />
       <Route path = "/signup" element = {<Signup />} />
       <Route path = "/login" element = {<Login />} />
+      <Route path = "/profile" element = {<Profile />} />
     </Routes>
   );
 }
