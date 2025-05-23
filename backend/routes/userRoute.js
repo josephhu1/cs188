@@ -139,4 +139,60 @@ router.post("/streak_reset/:subject/:username", async (request, response) => {
     }
 });
 
+// update user profile picture
+router.post("/update-pfp/:username", async (request, response) => {
+    try {
+        const { username } = request.params;
+        const { pfp } = request.body;
+        
+        if (!pfp) {
+            throw Error("Profile picture URL is required")
+        }
+
+        const user = await User.findOne({ username: username });
+        
+        if (!user) {
+            throw Error("User not found")
+        }
+        
+        // Update the user's profile picture
+        user.pfp = pfp;
+        
+        // Add to inventory if not already there
+        if (!user.inventory_pfp.includes(pfp)) {
+            user.inventory_pfp.push(pfp);
+        }
+        
+        await user.save();
+        
+        return response.status(200).json({
+            message: "Profile picture updated successfully", 
+            user
+        });
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message: error.message})
+    }
+});
+
+// Get avatar collection
+router.get("/avatars", async (request, response) => {
+    try {
+        // List of avatar URLs
+        const avatars = [
+            "https://img.buzzfeed.com/buzzfeed-static/static/2016-05/19/11/enhanced/buzzfeed-prod-web12/enhanced-14306-1463672213-1.png",
+            "https://upload.wikimedia.org/wikipedia/commons/e/e3/Tory_Lanez_2500x1669.jpg",
+            "https://www.refinery29.com/images/11174427.jpg?format=webp&width=720&height=864&quality=85",
+            "https://upload.wikimedia.org/wikipedia/commons/1/18/Mark_Zuckerberg_F8_2019_Keynote_%2832830578717%29_%28cropped%29.jpg",
+            "https://m.media-amazon.com/images/M/MV5BNWI4ZTJiZmUtZGI5MC00NTk4LTk2OTYtNDU3NTJiM2QxNzM0XkEyXkFqcGc@._V1_.jpg",
+            "https://media.cnn.com/api/v1/images/stellar/prod/elon-musk-qatar-economic-forum-0520.jpg"
+        ];
+        
+        return response.status(200).json(avatars);
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message: error.message})
+    }
+});
+
 export default router;
