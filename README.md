@@ -33,6 +33,18 @@ For CS188: The `.env` file is provided in the Google Drive.
 - On getting answer correct, 100 points are gained
 - Can choose to to another problem or return to home page
 
+## Interaction Flow #2
+### 1. Start on home page
+### 2. Login to account or register (as shown in previous interaction flow)
+### 3. Click on profile icon (top right)
+- This will reveal a dropdown menu
+### 4. Select "Profile"
+- You will be redirected to your profile page
+### 5. Select a avatar from your inventory
+- Selected avatar will be highlighted
+### 6. Click "Save Avatar"
+- Selected avatar will be set as the user's new profile picture for all pages
+
 ## Sources Used
 1. Carnes B. MERN Stack Crash Course – Build a Book Store App [Internet]. freeCodeCamp.org. 2023 [cited 2023 Dec 7]. Available from: [https://www.freecodecamp.org/news/mern-stack-crash-course/](https://www.freecodecamp.org/news/mern-stack-crash-course/)
 
