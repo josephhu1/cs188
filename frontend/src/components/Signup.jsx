@@ -39,7 +39,9 @@ const Signup = () => {
             navigate("/")
         }
         else {
-            alert("Registration failed. Make sure your email is correct.")
+            alert(`Registration failed: ${json.error || 'Unknown error'}`)
+            console.log(json)
+
         }
 
         } catch (error) {

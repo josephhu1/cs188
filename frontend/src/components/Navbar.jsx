@@ -46,18 +46,18 @@ export default function Navbar() {
         <div className="relative flex h-25 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
           </div>
-          <div className="items-center justify-center sm:items-stretch sm:justify-start">
+          <div className="items-center justify-center sm:items-stretch sm:justify-start flex-grow max-w-2xl">
             <FaHome onClick = {handleClickHome} className="h-15 w-auto m-2 text-white"/>
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch">
-            <div className="flex shrink-0 items-center">
+          <div className="flex flex-1 items-center justify-center sm:items-stretch flex-grow">
+            <div className="flex shrink-0 items-center ">
               <FcGlobe className="h-15 w-auto m-2"/>
-              <div className='text-white text-5xl'>
+              <div className='text-white text-5xl ml-4'>
                 Asteria
               </div>
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div className="max-w-2xl flex gap-1 flex-grow inset-y-0 right-0 flex justify-end pr-2">
             {/* Profile dropdown */}
             {user ? (
             <Menu as="div" className="relative ml-3">
@@ -95,9 +95,9 @@ export default function Navbar() {
               </MenuItems>
             </Menu>
             ) : (
-            <div className="space-x-15">
+            <div className="text-right">
               <button onClick = {handleRegister} className="rounded px-4 py-2 bg-yellow-500 text-white">Register</button>
-              <button onClick = {handleLogin} className="rounded px-4 py-2 bg-green-500 text-white">Login</button>
+              <button onClick = {handleLogin} className="rounded ml-2 px-4 py-2 bg-green-500 text-white">Login</button>
             </div>
             )}
           </div>

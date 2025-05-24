@@ -56,7 +56,7 @@ const Home = () => {
   return (
     <div>
     <Navbar />
-    <h1 className='text-3xl text-center mb-0 translate-y-20'>What subject would you like to practice?</h1>
+    <h1 className='text-3xl text-center mb-5 mt-10 translate-y-20'>What subject would you like to practice?</h1>
     <div className="flex justify-center items-center min-h-screen">
       <div className="grid grid-cols-2 gap-20">
         {subjects.map((subject, i) => (
