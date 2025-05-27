@@ -175,6 +175,46 @@ router.post("/update-pfp/:username", async (request, response) => {
     }
 });
 
+// Unlock an avatar and deduct points
+router.post("/unlock-avatar/:username", async (request, response) => {
+  try {
+    const { username } = request.params;
+    const { avatarId } = request.body;
+
+    if (!avatarId) {
+      return response.status(400).json({ message: "Missing avatarId" });
+    }
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return response.status(404).json({ message: "User not found" });
+    }
+
+    // Avoid duplicates
+    if (!user.inventory_pfp.includes(avatarId)) {
+      user.inventory_pfp.push(avatarId);
+    }
+
+    // Deduct 100 points if possible
+    if (user.points >= 100) {
+      user.points -= 100;
+    } else {
+      return response.status(400).json({ message: "Not enough points" });
+    }
+
+    await user.save();
+
+    return response.status(200).json({
+      message: "Avatar unlocked and points deducted",
+      user
+    });
+  } catch (error) {
+    console.error(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
 // Get avatar collection
 router.get("/avatars", async (request, response) => {
     try {

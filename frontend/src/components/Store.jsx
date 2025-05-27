@@ -11,12 +11,12 @@ const Store = () => {
     { src: "/images/avatar2.png", name: "Cat", cost: 100 },
     { src: "/images/avatar3.png", name: "Glasses Guy", cost: 100 }
   ]);
+
   const mysteryAvatars = [
-  { src: "/images/mystery1.png", name: "Friren1" },
-  { src: "/images/mystery2.png", name: "Friren2" },
-  { src: "/images/mystery3.png", name: "Friren3" },
-  // Add more as you like
- ];
+    { id: "mystery1", src: "/images/mystery1.png", name: "Friren1" },
+    { id: "mystery2", src: "/images/mystery2.png", name: "Friren2" },
+    { id: "mystery3", src: "/images/mystery3.png", name: "Friren3" }
+  ];
 
   const [opening, setOpening] = useState(false);
   const [unlockedAvatar, setUnlockedAvatar] = useState(null);
@@ -42,11 +42,30 @@ const Store = () => {
     setUnlockedAvatar(null);
 
     setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * avatars.length);
-      const randomAvatar = mysteryAvatars[randomIndex];
+      // Filter out already unlocked avatars
+      const eligible = mysteryAvatars.filter(
+        (a) => !userData.inventory_pfp?.includes(a.id)
+      );
+
+      if (eligible.length === 0) {
+        alert("🎉 You already own all mystery avatars!");
+        setOpening(false);
+        return;
+      }
+
+      const randomIndex = Math.floor(Math.random() * eligible.length);
+      const randomAvatar = eligible[randomIndex];
       setUnlockedAvatar(randomAvatar);
       setOpening(false);
-      // TODO: deduct 100 pts + save avatar to backend
+
+      axios
+        .post(`http://localhost:5555/user/unlock-avatar/${user.username}`, {
+          avatarId: randomAvatar.id
+        })
+        .then((res) => {
+          setUserData(res.data.user); // refresh user points + inventory
+        })
+        .catch((err) => console.error("Failed to save unlocked avatar", err));
     }, 2000);
   };
 
@@ -89,13 +108,13 @@ const Store = () => {
             <img
               src={unlockedAvatar.src}
               alt={unlockedAvatar.name}
-              className="w-32 h-32 rounded-full mx-auto"
+              className="w-32 h-32 mx-auto glow-border"
             />
           </div>
         ) : (
           <button
             onClick={handleMysteryBox}
-            // disabled={userData.points < 100}
+            //disabled={userData.points < 100}
             className="px-6 py-3 text-white text-lg bg-purple-600 rounded hover:bg-purple-700 disabled:opacity-50"
           >
             🎁 Open Mystery Box (100 pts)

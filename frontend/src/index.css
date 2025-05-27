@@ -2,3 +2,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.glow-border {
+  border: 4px solid #a78bfa;
+  box-shadow: 0 0 15px 5px #c084fc;
+  border-radius: 9999px;
+  animation: glowPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 10px #c084fc; }
+  50% { box-shadow: 0 0 25px #c084fc; }
+  100% { box-shadow: 0 0 10px #c084fc; }
+}
+
