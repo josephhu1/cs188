@@ -118,7 +118,7 @@ const Problem = () => {
       <Navbar/>
       <div className='flex-col flex items-center justify-center'>
       <div className='text-5xl my-10 mx-10'>{subject}: {tag}</div>
-      <img src = {problem.image} className='w-250 h-75'></img>
+      <img src = {problem.image}></img>
       <div className='m-2'>This problem is from: {problem.source}</div>
       <input className = "w-full max-w-md px-4 py-2 border border-black-300 rounded-lg m-1 my-3"
       type = "text" value = {answer} onChange={handleAnswer} placeholder='Enter Answer'></input>
