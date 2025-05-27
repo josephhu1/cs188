@@ -6,6 +6,7 @@ import Subject from "./components/Subject"
 import Signup from './components/Signup'
 import Login from './components/Login'
 import Profile from './components/Profile'
+import Store from './components/Store'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Route path = "/signup" element = {<Signup />} />
       <Route path = "/login" element = {<Login />} />
       <Route path = "/profile" element = {<Profile />} />
+      <Route path = "/store" element = {<Store />} />
     </Routes>
   );
 }

@@ -26,6 +26,9 @@ export default function Navbar() {
   const handleLogin = () => {
     navigate("/login")
   }
+  const handleStore = () => {
+    navigate("/store");
+  }
   const [userData, setUserData] = useState({})
   if (user) {
     axios
@@ -60,6 +63,14 @@ export default function Navbar() {
           <div className="max-w-2xl flex gap-1 flex-grow inset-y-0 right-0 flex justify-end pr-2">
             {/* Profile dropdown */}
             {user ? (
+              <>
+            <img
+              onClick={handleStore}
+              src="/images/store.png"  // <-- Replace with your image path
+              alt="Store"
+              className="w-20 h-20 cursor-pointer hover:scale-110 transition-transform mr-3"
+            />
+            
             <Menu as="div" className="relative ml-3">
               <div>
                 <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
@@ -94,10 +105,12 @@ export default function Navbar() {
                 </MenuItem>
               </MenuItems>
             </Menu>
+              </>
             ) : (
             <div className="text-right">
               <button onClick = {handleRegister} className="rounded px-4 py-2 bg-yellow-500 text-white">Register</button>
               <button onClick = {handleLogin} className="rounded ml-2 px-4 py-2 bg-green-500 text-white">Login</button>
+    
             </div>
             )}
           </div>
