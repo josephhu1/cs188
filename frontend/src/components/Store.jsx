@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import { useAuthContext } from '../hooks/useAuthContext';
+import Confetti from 'react-confetti'
+import { useWindowSize } from '@react-hook/window-size'
+
 
 const Store = () => {
   const { user } = useAuthContext();
@@ -13,13 +16,16 @@ const Store = () => {
   ]);
 
   const mysteryAvatars = [
-    { id: "mystery1", src: "/images/mystery1.png", name: "Friren1" },
-    { id: "mystery2", src: "/images/mystery2.png", name: "Friren2" },
-    { id: "mystery3", src: "/images/mystery3.png", name: "Friren3" }
+    { id: "mystery1", src: "/images/mystery1.png", name: "Frieren1" },
+    { id: "mystery2", src: "/images/mystery2.png", name: "Frieren2" },
+    { id: "mystery3", src: "/images/mystery3.png", name: "Frieren3" }
   ];
 
   const [opening, setOpening] = useState(false);
   const [unlockedAvatar, setUnlockedAvatar] = useState(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [width, height] = useWindowSize();
+
 
   // Load user info
   useEffect(() => {
@@ -40,6 +46,7 @@ const Store = () => {
   const handleMysteryBox = () => {
     setOpening(true);
     setUnlockedAvatar(null);
+    setShowConfetti(false);
 
     setTimeout(() => {
       // Filter out already unlocked avatars
@@ -57,6 +64,8 @@ const Store = () => {
       const randomAvatar = eligible[randomIndex];
       setUnlockedAvatar(randomAvatar);
       setOpening(false);
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 3000); // Hide confetti after 5 seconds
 
       axios
         .post(`http://localhost:5555/user/unlock-avatar/${user.username}`, {
@@ -96,6 +105,8 @@ const Store = () => {
 
       {/* Mystery Box Section */}
       <div className="flex flex-col items-center mt-12">
+        {showConfetti && <Confetti width={width} height={height} />}
+
         {opening ? (
           <img
             src="/images/mysterybox.png"
