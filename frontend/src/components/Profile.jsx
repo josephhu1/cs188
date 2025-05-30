@@ -104,6 +104,8 @@ const Profile = () => {
       </div>
     );
   }
+  console.log(avatars)
+  console.log(userData.inventory_pfp)
 
   return (
     <div>
@@ -125,11 +127,11 @@ const Profile = () => {
               <div className="mt-4 text-xl">Username: {userData.username}</div>
               <div className="mt-2 text-xl">Points: {userData.points}</div>
             </div>
-
+            {userData.inventory_pfp && 
             <div className="mt-8">
               <div className="text-2xl mb-4">Select a new avatar</div>
               <div className="grid grid-cols-3 gap-6">
-                {avatars.map((avatar, index) => (
+                {(userData.inventory_pfp).map((avatar, index) => (
                   <div 
                     key={index} 
                     className={`cursor-pointer p-4 rounded-lg hover:bg-sky-400 transition-colors ${
@@ -146,6 +148,7 @@ const Profile = () => {
                 ))}
               </div>
             </div>
+            }
 
             <div className="flex justify-center mt-8">
               <button

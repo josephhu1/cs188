@@ -16,9 +16,9 @@ const Store = () => {
   ]);
 
   const mysteryAvatars = [
-    { id: "mystery1", src: "/images/mystery1.png", name: "Frieren1" },
-    { id: "mystery2", src: "/images/mystery2.png", name: "Frieren2" },
-    { id: "mystery3", src: "/images/mystery3.png", name: "Frieren3" }
+    { id: "/images/mystery1.png", src: "/images/mystery1.png", name: "Frieren1" },
+    { id: "/images/mystery2.png", src: "/images/mystery2.png", name: "Frieren2" },
+    { id: "/images/mystery3.png", src: "/images/mystery3.png", name: "Frieren3" }
   ];
 
   const [opening, setOpening] = useState(false);
@@ -69,7 +69,7 @@ const Store = () => {
 
       axios
         .post(`http://localhost:5555/user/unlock-avatar/${user.username}`, {
-          avatarId: randomAvatar.id
+          avatarId: randomAvatar.src
         })
         .then((res) => {
           setUserData(res.data.user); // refresh user points + inventory
