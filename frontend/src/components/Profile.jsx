@@ -104,8 +104,6 @@ const Profile = () => {
       </div>
     );
   }
-  console.log(avatars)
-  console.log(userData.inventory_pfp)
 
   return (
     <div>
