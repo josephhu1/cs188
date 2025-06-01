@@ -18,7 +18,9 @@ const Store = () => {
   const mysteryAvatars = [
     { id: "/images/mystery1.png", src: "/images/mystery1.png", name: "Frieren1" },
     { id: "/images/mystery2.png", src: "/images/mystery2.png", name: "Frieren2" },
-    { id: "/images/mystery3.png", src: "/images/mystery3.png", name: "Frieren3" }
+    { id: "/images/mystery3.png", src: "/images/mystery3.png", name: "Frieren3" },
+    { id: "/images/mystery4.png", src: "/images/mystery4.png", name: "CoolCat" },
+    { id: "/images/mystery5.png", src: "/images/mystery5.png", name: "CSNerd" }
   ];
 
   const [opening, setOpening] = useState(false);
@@ -48,7 +50,7 @@ const Store = () => {
   const handleMysteryBox = () => {
     if (userData.points < 100) {
     setErrorMsg(" Not enough points to open a mystery box!");
-    setTimeout(() => setErrorMsg(""), 3000); // Clear after 3 seconds
+    setTimeout(() => setErrorMsg(""), 2000); // Clear after 2 seconds
     return;
     }
 

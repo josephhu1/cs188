@@ -120,8 +120,33 @@ const Problem = () => {
       <div className='text-5xl my-10 mx-10'>{subject}: {tag}</div>
       <img src = {problem.image}></img>
       <div className='m-2'>This problem is from: {problem.source}</div>
-      <input className = "w-full max-w-md px-4 py-2 border border-black-300 rounded-lg m-1 my-3"
-      type = "text" value = {answer} onChange={handleAnswer} placeholder='Enter Answer'></input>
+      {problem.options && problem.options.length > 0 ? (
+        <div className="flex flex-col space-y-3 my-3">
+          {problem.options.map((opt, i) => {
+            const letter = String.fromCharCode(65 + i); // A, B, C...
+            return (
+              <button
+                key={i}
+                onClick={() => setAnswer(letter)}
+                className={`w-full max-w-md px-4 py-2 rounded-lg border ${
+                  answer === letter ? 'bg-blue-500 text-white' : 'bg-white'
+                }`}
+              >
+                {letter}. {opt}
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <input
+          className="w-full max-w-md px-4 py-2 border border-black-300 rounded-lg m-1 my-3"
+          type="text"
+          value={answer}
+          onChange={handleAnswer}
+          placeholder="Enter Answer"
+        />
+      )}
+
         {reveal ? (
         <div className="space-x-15">
           <button onClick = {handleHome} className="rounded px-4 py-2 bg-yellow-500 text-white">Return Home</button>

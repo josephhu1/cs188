@@ -11,7 +11,7 @@ const Home = () => {
     const subjects = [
         {color: "bg-yellow-500", subject: "Testing"},
         {color: "bg-red-500", subject: "Calculus"},
-        {color: "bg-green-500", subject: "x"},
+        {color: "bg-green-500", subject: "Biology"},
         {color: "bg-blue-500", subject: "y"},
     ];
     const { user } = useAuthContext()
@@ -56,10 +56,11 @@ const Home = () => {
   return (
     <div>
     <Navbar />
-    <h1 className='text-3xl text-center mb-5 mt-10 translate-y-20'>What subject would you like to practice?</h1>
-    <p className="text-center text-lg text-black-500 italic font-medium tracking-wide">
-    🧠 Answer questions. 🎯 Earn points. 🎁 Unlock cool stuff!
+    <h1 className='text-3xl text-center font-semibold mt-10'>What subject would you like to practice?</h1>
+    <p className="text-center text-md text-gray-600 italic font-medium mt-1 mb-6">
+      🧠 Answer questions. 🎯 Earn points. 🎁 Unlock cool stuff!
     </p>
+
     <div className="flex justify-center items-center min-h-screen">
       <div className="grid grid-cols-2 gap-20">
         {subjects.map((subject, i) => (
