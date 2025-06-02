@@ -7,6 +7,7 @@ import Signup from './components/Signup'
 import Login from './components/Login'
 import Profile from './components/Profile'
 import Store from './components/Store'
+import Leaderboard from './components/Leaderboard'
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
       <Route path = "/login" element = {<Login />} />
       <Route path = "/profile" element = {<Profile />} />
       <Route path = "/store" element = {<Store />} />
+      <Route path = "/leaderboard" element = {<Leaderboard />} />
     </Routes>
   );
 }

@@ -1,6 +1,7 @@
 import express from "express"
 import res from "express"
 import { User } from "../models/userModel.js"
+import mongoose from "mongoose"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
@@ -235,4 +236,20 @@ router.get("/avatars", async (request, response) => {
     }
 });
 
+router.get('/users', async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    res.json(allUsers);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+router.get('/leaderboard', async (req, res) => {
+  try {
+    const users = await User.find().sort({ points: -1 }).limit(10);
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 export default router;
