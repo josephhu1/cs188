@@ -28,10 +28,11 @@ const Leaderboard = () => {
   }, []);
 
 const getLeague = (points) => {
-  if (points >= 1000) return { name: 'Platinum', color: 'text-teal-500' };
-  if (points >= 500) return { name: 'Gold', color: 'text-yellow-500' };
+  if (points >= 2000) return { name: 'Masters', color: 'text-purple-600' };
+  if (points >= 1500) return { name: 'Platinum', color: 'text-teal-500' };
+  if (points >= 700) return { name: 'Gold', color: 'text-yellow-500' };
   if (points >= 200) return { name: 'Silver', color: 'text-gray-400' };
-  return { name: 'Wood', color: 'text-amber-800' };
+  return { name: 'Bronze', color: 'text-amber-800' };
 };
 
   // Main useEffect to load data after auth check
