@@ -3,6 +3,7 @@ import { Flame } from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 import { VscDebug } from "react-icons/vsc";
 import { TbMathIntegralX } from "react-icons/tb";
+import { TbPrismLight } from "react-icons/tb";
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios'
 
@@ -63,8 +64,8 @@ const SubjectSquare = ({color, subject, streaks}) => {
     {subject == "x" && (
       <div>x</div>
     )}
-    {subject == "y" && (
-      <div>y</div>
+    {subject == "Physics" && (
+      <TbPrismLight className='w-30 h-30 absolute top-25'/>
     )}
     </div>
     
