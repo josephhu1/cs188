@@ -45,6 +45,14 @@ const Problem = () => {
       setReveal(true);
     }
 
+    const playSuccessSound = () => {
+      new Audio('/images/duo.mp3').play();
+    };
+
+    const playErrorSound = () => {
+      new Audio('/images/fail.mp3').play(); 
+    };
+
     const handleStreak = () => {
       axios
         .post(`http://localhost:5555/user/streak/${subject}/${user.username}`)
@@ -60,6 +68,7 @@ const Problem = () => {
       if (answer == problem.answer){
         setSolved(true);
         setReveal(true);
+        playSuccessSound();
         setIncorrect(false);
         switch(subject) {
           case "Testing":
@@ -89,6 +98,7 @@ const Problem = () => {
       }
       else {
         setIncorrect(true);
+        playErrorSound();
       }
     }
     const handleHome = () => {
@@ -129,8 +139,8 @@ const Problem = () => {
         </div>
         ) : (
         <div className="space-x-15">
-          <button onClick = {handleSubmit} className="rounded px-4 py-2 bg-yellow-500 text-white">Enter Answer</button>
-          <button onClick = {handleReveal} className="rounded px-4 py-2 bg-green-500 text-white">Reveal Solution</button>
+          <button onClick = {handleReveal} className="rounded px-4 py-2 bg-yellow-500 text-white">Reveal Solution</button>
+          <button onClick = {handleSubmit} className="rounded px-4 py-2 bg-green-500 text-white">Enter Answer</button>
         </div>
         )}
         {incorrect && (
