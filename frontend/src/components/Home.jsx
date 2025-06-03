@@ -12,7 +12,7 @@ const Home = () => {
         {color: "bg-yellow-500", subject: "Testing"},
         {color: "bg-red-500", subject: "Calculus"},
         {color: "bg-green-500", subject: "Biology"},
-        {color: "bg-blue-500", subject: "y"},
+        {color: "bg-blue-500", subject: "Physics"},
     ];
     const { user } = useAuthContext()
     // Check streak
