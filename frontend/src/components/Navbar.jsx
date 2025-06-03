@@ -50,7 +50,10 @@ export default function Navbar() {
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
           </div>
           <div className="items-center justify-center sm:items-stretch sm:justify-start flex-grow max-w-2xl">
-            <FaHome onClick = {handleClickHome} className="h-15 w-auto m-2 text-white"/>
+            <FaHome
+            onClick={handleClickHome}
+            className="h-12 w-12 m-2 text-white cursor-pointer hover:scale-110 hover:text-yellow-400 transition duration-200"
+            />
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch flex-grow">
             <div className="flex shrink-0 items-center ">

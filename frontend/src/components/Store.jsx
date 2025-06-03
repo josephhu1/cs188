@@ -18,13 +18,17 @@ const Store = () => {
   const mysteryAvatars = [
     { id: "/images/mystery1.png", src: "/images/mystery1.png", name: "Frieren1" },
     { id: "/images/mystery2.png", src: "/images/mystery2.png", name: "Frieren2" },
-    { id: "/images/mystery3.png", src: "/images/mystery3.png", name: "Frieren3" }
+    { id: "/images/mystery3.png", src: "/images/mystery3.png", name: "Frieren3" },
+    { id: "/images/mystery4.png", src: "/images/mystery4.png", name: "CoolCat" },
+    { id: "/images/mystery5.png", src: "/images/mystery5.png", name: "CSNerd" }
   ];
 
   const [opening, setOpening] = useState(false);
   const [unlockedAvatar, setUnlockedAvatar] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [width, height] = useWindowSize();
+  const [errorMsg, setErrorMsg] = useState("");
+
 
 
   // Load user info
@@ -44,9 +48,16 @@ const Store = () => {
   }, [user]);
 
   const handleMysteryBox = () => {
+    if (userData.points < 100) {
+    setErrorMsg(" Not enough points to open a mystery box!");
+    setTimeout(() => setErrorMsg(""), 2000); // Clear after 2 seconds
+    return;
+    }
+
     setOpening(true);
     setUnlockedAvatar(null);
     setShowConfetti(false);
+    setErrorMsg("");
 
     setTimeout(() => {
       // Filter out already unlocked avatars
@@ -78,6 +89,35 @@ const Store = () => {
     }, 2000);
   };
 
+  const handleBuyAvatar = (avatar) => {
+  console.log("Attempting to buy avatar:", avatar);
+
+  if (userData.points < avatar.cost) {
+    alert("Not enough points!");
+    return;
+  }
+
+  if (userData.inventory_pfp?.includes(avatar.src)) {
+    alert("You already own this avatar!");
+    return;
+  }
+
+  axios
+    .post(`http://localhost:5555/user/buy-avatar/${user.username}`, {
+      avatarId: avatar.src,
+      cost: avatar.cost
+    })
+    .then((res) => {
+      console.log("Purchase successful:", res.data);
+      setUserData(res.data.user); // refresh user info
+    })
+    .catch((err) => {
+      console.error("❌ Purchase failed:", err.response?.data || err.message);
+      alert("Failed to purchase. Try again.");
+    });
+};
+
+
   return (
     <div>
       <Navbar />
@@ -93,11 +133,17 @@ const Store = () => {
               <img src={avatar.src} alt={avatar.name} className="w-28 h-28 rounded-full mx-auto" />
               <p className="mt-3 text-sm text-gray-600">Cost: {avatar.cost} points</p>
               <button
-                className="mt-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-                disabled={userData.points < avatar.cost}
-              >
-                {userData.points < avatar.cost ? "Not enough points" : "Buy"}
-              </button>
+              onClick={() => handleBuyAvatar(avatar)}
+              className="mt-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+              disabled={userData.points < avatar.cost}
+            >
+              {userData.inventory_pfp?.includes(avatar.src)
+                ? "Owned"
+                : userData.points < avatar.cost
+                ? "Not enough points"
+                : "Buy"}
+            </button>
+
             </div>
           ))}
         </div>
@@ -123,13 +169,15 @@ const Store = () => {
             />
           </div>
         ) : (
+          <>
           <button
             onClick={handleMysteryBox}
-            //disabled={userData.points < 100}
             className="px-6 py-3 text-white text-lg bg-purple-600 rounded hover:bg-purple-700 disabled:opacity-50"
           >
             🎁 Open Mystery Box (100 pts)
           </button>
+          {errorMsg && <p className="text-red-600 mt-4">{errorMsg}</p>}
+        </>
         )}
       </div>
     </div>
