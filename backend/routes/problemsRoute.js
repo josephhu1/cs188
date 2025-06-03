@@ -3,6 +3,8 @@ import { Problem } from "../models/problemModel.js"
 
 const router = express.Router();
 
+
+
 // Save new problem
 router.post("/", async (request, response) => {
     try {
@@ -23,7 +25,8 @@ router.post("/", async (request, response) => {
             subject: request.body.subject,
             tag: request.body.tag,
             answer: request.body.answer,
-            source: request.body.source
+            source: request.body.source,
+            options: request.body.options // for mcq
         };
 
         const problem = await Problem.create(newProblem);
@@ -39,24 +42,6 @@ router.post("/", async (request, response) => {
 router.get("/", async (request, response) => {
     try {
         const problems = await Problem.find({});
-
-        return response.status(200).json({
-            count: problems.length,
-            data: problems
-        });
-    } catch (error) {
-        console.log(error.message);
-        response.status(500).send({message: error.message})
-    }
-});
-
-
-// Get problems from tag
-router.get("/:tag", async (request, response) => {
-    try {
-
-        const {tag} = request.params;
-        const problems = await Problem.find({ tag: tag});
 
         return response.status(200).json({
             count: problems.length,
@@ -99,5 +84,36 @@ router.get("/tags/:subject", async (request, response) => {
         response.status(500).send({message: error.message})
     }
 });
+
+// Get problems from tag
+router.get("/:tag", async (request, response) => {
+    try {
+
+        const {tag} = request.params;
+        const problems = await Problem.find({ tag: tag});
+
+        return response.status(200).json({
+            count: problems.length,
+            data: problems
+        });
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({message: error.message})
+    }
+});
+// Delete problem by ID
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedProblem = await Problem.findByIdAndDelete(id);
+    if (!deletedProblem) {
+      return res.status(404).send({ message: "Problem not found" });
+    }
+    return res.status(200).send({ message: "Problem deleted", id });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
 
 export default router;

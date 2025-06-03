@@ -23,6 +23,10 @@ const problemSchema = mongoose.Schema(
         source: {
             type: String,
             required: true,
+        },
+        options: {
+            type: [String],
+            required: false,    // option, only required for multiple choice problems
         }
     },
     {

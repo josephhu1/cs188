@@ -214,6 +214,44 @@ router.post("/unlock-avatar/:username", async (request, response) => {
     response.status(500).send({ message: error.message });
   }
 });
+// Buy an avatar from the store
+router.post("/buy-avatar/:username", async (request, response) => {
+  try {
+    const { username } = request.params;
+    const { avatarId, cost } = request.body;
+
+    if (!avatarId || typeof cost !== 'number') {
+      return response.status(400).json({ message: "Missing avatarId or cost" });
+    }
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return response.status(404).json({ message: "User not found" });
+    }
+
+    if (user.points < cost) {
+      return response.status(400).json({ message: "Not enough points" });
+    }
+
+    if (user.inventory_pfp.includes(avatarId)) {
+      return response.status(400).json({ message: "Avatar already owned" });
+    }
+
+    user.inventory_pfp.push(avatarId);
+    user.points -= cost;
+
+    await user.save();
+
+    return response.status(200).json({
+      message: "Avatar purchased successfully",
+      user
+    });
+  } catch (error) {
+    console.error(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
 
 // Get avatar collection
 router.get("/avatars", async (request, response) => {
