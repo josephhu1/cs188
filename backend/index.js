@@ -5,14 +5,16 @@ import { Problem } from "./models/problemModel.js";
 import problemsRoute from "./routes/problemsRoute.js"
 import cors from "cors"
 import userRoute from "./routes/userRoute.js"
+import feedbackRoutes from "./routes/feedbackRoutes.js";
+
 
 
 
 const app = express();
-
-app.use(express.json());
-
 app.use(cors());
+app.use(express.json());
+app.use("/feedback", feedbackRoutes);
+
 
 app.get("/", (request, response) => {
     console.log(request)

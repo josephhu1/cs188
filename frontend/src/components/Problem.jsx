@@ -3,6 +3,9 @@ import axios from 'axios';
 import Navbar from './Navbar';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
+import Confetti from 'react-confetti';
+import { useWindowSize } from '@react-hook/window-size'; // optional for auto-sizing
+
 
 const Problem = () => {
   const { user } = useAuthContext()
@@ -12,6 +15,11 @@ const Problem = () => {
   const [answer, setAnswer] = useState("");
   const [solved, setSolved] = useState(false);
   const [reveal, setReveal] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [width, height] = useWindowSize();
+  const [feedback, setFeedback] = useState("");
+  const [feedbackSent, setFeedbackSent] = useState(false);
+
   const [incorrect, setIncorrect] = useState(false);
   const [userData, setUserData] = useState({})
   const [date, setDate] = useState("")
@@ -70,6 +78,8 @@ const Problem = () => {
         setReveal(true);
         playSuccessSound();
         setIncorrect(false);
+        setShowConfetti(true); // trigger confetti
+        setTimeout(() => setShowConfetti(false), 3000); // stop after 3 seconds
         switch(subject) {
           case "Testing":
             if (date != userData.testing_date){
@@ -122,11 +132,33 @@ const Problem = () => {
               alert("User does not exist")
             });
       } 
+    const handleFeedbackSubmit = () => {
+    axios.post(
+      "http://localhost:5555/feedback",
+      {
+        username: user?.username || "Anonymous",
+        problemId: problem._id || "",
+        message: feedback
+      },
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+  ).then(() => {
+        setFeedbackSent(true);
+        setFeedback("");
+        setTimeout(() => setFeedbackSent(false), 3000);
+      }).catch((err) => {
+        alert("Error sending feedback");
+        console.error(err.message);
+      });
+    };
 
   return (
     <div>
       <Navbar/>
-      <div className='flex-col flex items-center justify-center'>
+      <div className='flex flex-col items-center justify-start min-h-screen px-4'>
       <div className='text-5xl my-10 mx-10'>{subject}: {tag}</div>
       <img src = {problem.image}></img>
       <div className='m-2'>This problem is from: {problem.source}</div>
@@ -180,6 +212,38 @@ const Problem = () => {
         {reveal && (
           <div className='m-3 text-xl bg-yellow-500/40'>Solution: {problem.answer}</div>
         )}
+        {showConfetti && <Confetti width={width} height={height} />}
+      {/* === FEEDBACK FORM === */}
+      <div className="mt-8 w-full max-w-sm bg-white p-4 rounded-xl shadow-md">
+        <h2 className="text-xl font-semibold mb-3 text-center">Feedback 💬</h2>
+        <textarea
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+          placeholder="Let us know what you thought!"
+          className="w-full border border-gray-300 focus:border-indigo-400 focus:ring-indigo-200 rounded-lg p-2 resize-none text-gray-700 placeholder-gray-400 shadow-sm"
+          rows={3}
+        />
+        <button
+          onClick={handleFeedbackSubmit}
+          className="mt-3 w-full bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-1.5 rounded-lg transition-colors duration-200 flex items-center justify-center"
+        >
+          <svg
+            className="w-4 h-4 mr-2 fill-current"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M2.94 6.94a2 2 0 0 1 2.828 0L10 11.172l4.232-4.232a2 2 0 1 1 2.828 2.828l-5.656 5.656a2 2 0 0 1-2.828 0L2.94 9.768a2 2 0 0 1 0-2.828z" />
+          </svg>
+          Submit Feedback
+        </button>
+        {feedbackSent && (
+          <div className="mt-2 text-green-600 text-center text-sm">
+            Thanks for your feedback! ✨
+          </div>
+        )}
+      </div>
+
+        </div> // closing for the main <div className='flex-col flex items-center ...'>
       </div>
       </div>
   )

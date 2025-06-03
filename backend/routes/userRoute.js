@@ -118,6 +118,20 @@ router.post("/streak/:subject/:username", async (request, response) => {
     }
 });
 
+// Save feedback
+router.post("/feedback", (req, res) => {
+  const { username, problemId, message } = req.body;
+
+  console.log("📬 FEEDBACK RECEIVED:");
+  console.log("User:", username || "Anonymous");
+  console.log("Problem ID:", problemId || "N/A");
+  console.log("Message:", message);
+  console.log("------");
+
+  res.status(200).json({ message: "Feedback received" });
+});
+
+
 // reset streak
 router.post("/streak_reset/:subject/:username", async (request, response) => {
     try {
@@ -250,6 +264,43 @@ router.post("/buy-avatar/:username", async (request, response) => {
     });
   } catch (error) {
     console.error(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+// Mystery box purchase (random reward + deduct points)
+router.post("/buy-mystery-box/:username", async (request, response) => {
+  try {
+    const { username } = request.params;
+    const user = await User.findOne({ username });
+
+    const cost = 100;
+
+    if (!user) {
+      return response.status(404).json({ message: "User not found" });
+    }
+
+    if (user.points < cost) {
+      return response.status(400).json({ message: "Not enough points" });
+    }
+
+    user.points -= cost;
+
+    // Add a simple reward (optional)
+    const rewards = ["badge_star", "theme_darkmode", "fun_fact_token"];
+    const reward = rewards[Math.floor(Math.random() * rewards.length)];
+
+    if (!user.rewards) user.rewards = [];
+    user.rewards.push(reward);
+
+    await user.save();
+
+    return response.status(200).json({
+      message: "Mystery box opened!",
+      reward,
+      pointsLeft: user.points
+    });
+  } catch (error) {
+    console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 });
