@@ -20,7 +20,10 @@ const Store = () => {
     { id: "/images/mystery2.png", src: "/images/mystery2.png", name: "Frieren2" },
     { id: "/images/mystery3.png", src: "/images/mystery3.png", name: "Frieren3" },
     { id: "/images/mystery4.png", src: "/images/mystery4.png", name: "CoolCat" },
-    { id: "/images/mystery5.png", src: "/images/mystery5.png", name: "CSNerd" }
+    { id: "/images/mystery5.png", src: "/images/mystery5.png", name: "CSNerd" },
+    { id: "/images/mystery6.png", src: "/images/mystery6.png", name: "Duck" },
+    { id: "/images/mystery7.png", src: "/images/mystery7.png", name: "Harambe" },
+    { id: "/images/mystery8.png", src: "/images/mystery8.png", name: "Loch Ness Monster" }
   ];
 
   const [opening, setOpening] = useState(false);
