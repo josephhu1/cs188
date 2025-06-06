@@ -43,11 +43,11 @@ const SubjectSquare = ({color, subject, streaks}) => {
         {subject == "Calculus" && (
           userData.calculus_streak
         )}
-        {subject == "x" && (
-          3
+        {subject == "Biology" && (
+          userData.biology_streak
         )}
-        {subject == "y" && (
-          4
+        {subject == "Physics" && (
+          userData.physics_streak
         )}
         </div>
       ) : (

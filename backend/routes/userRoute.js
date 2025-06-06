@@ -101,13 +101,21 @@ router.post("/streak/:subject/:username", async (request, response) => {
         const today = new Date()
         const stringToday = today.toLocaleDateString()
         switch (subject){
-            case "Testing":
+            case "ComSci":
                 user.testing_streak = user.testing_streak + 1
                 user.testing_date = stringToday
                 break;
             case "Calculus":
                 user.calculus_streak = user.calculus_streak + 1
                 user.calculus_date = stringToday
+                break;
+            case "Biology":
+                user.biology_streak = user.biology_streak + 1
+                user.biology_data = stringToday
+                break;
+            case "Physics":
+                user.physics_streak = user.physics_streak + 1
+                user.physics_date = stringToday
                 break;
         }
         await user.save()

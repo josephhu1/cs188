@@ -31,6 +31,22 @@ const userInfo = mongoose.Schema(
             type: String,
             default: "1/1/2000"
           },
+          biology_streak: {
+            type: Number,
+            default: 0,
+          },
+          biology_data: {
+            type: String,
+            default: "1/1/2000"
+          },
+          physics_streak: {
+            type: Number,
+            default: 0,
+          },
+          physics_data: {
+            type: String,
+            default: "1/1/2000"
+          },
           pfp: {
             type: String,
             default: "https://asteriaproblems.s3.us-east-2.amazonaws.com/Default_pfp.jpg"

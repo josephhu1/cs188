@@ -83,6 +83,18 @@ const Problem = () => {
               handleStreak()
             }
             break;
+          case "Biology":
+            if (date != userData.biology_date){
+              setStreakUpdated(true)
+              handleStreak()
+            }
+          break;
+          case "Physics":
+            if (date != userData.physics_date){
+              setStreakUpdated(true)
+              handleStreak()
+            }
+            break;
         }
         axios
             .post(`http://localhost:5555/user/points/${user.username}`)

@@ -41,6 +41,17 @@ const Home = () => {
             alert("User does not exist")
           });
     }
+    if ((userData.biology_date != today.toLocaleDateString() && userData.biology_date != tmr.toLocaleDateString()) && userData.biology_date != undefined){
+        axios
+        .post(`http://localhost:5555/user/streak_reset/Biology/${user.username}`)
+        .then((response) => {
+            if (!response){
+                throw new Error("User does not exist");
+            }
+          }).catch((error) => {
+            alert("User does not exist")
+          });
+    }
     if ((userData.testing_date != today.toLocaleDateString() && userData.testing_date != tmr.toLocaleDateString()) && userData.testing_date != undefined){
         axios
         .post(`http://localhost:5555/user/streak_reset/Testing/${user.username}`)
