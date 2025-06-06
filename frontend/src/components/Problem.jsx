@@ -71,7 +71,7 @@ const Problem = () => {
         playSuccessSound();
         setIncorrect(false);
         switch(subject) {
-          case "Testing":
+          case "ComSci":
             if (date != userData.testing_date){
               setStreakUpdated(true)
               handleStreak()

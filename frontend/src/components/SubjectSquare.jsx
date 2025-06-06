@@ -5,6 +5,9 @@ import { VscDebug } from "react-icons/vsc";
 import { TbMathIntegralX } from "react-icons/tb";
 import { TbPrismLight } from "react-icons/tb";
 import { useAuthContext } from '../hooks/useAuthContext';
+import { FaDna } from "react-icons/fa";
+import { FaCode } from "react-icons/fa";
+
 import axios from 'axios'
 
 
@@ -34,7 +37,7 @@ const SubjectSquare = ({color, subject, streaks}) => {
       <Flame className = "w-5 h-7 text-write" />
       {user ? (
         <div>
-      {subject == "Testing" && (
+      {subject == "ComSci" && (
         userData.testing_streak
         )}
         {subject == "Calculus" && (
@@ -55,14 +58,14 @@ const SubjectSquare = ({color, subject, streaks}) => {
         {subject}
     </div>
     <div className="bg-black absolute w-full h-0.5 top-15" />
-    {subject == "Testing" && (
-      <VscDebug className='w-30 h-30 absolute top-25'/>
+    {subject == "ComSci" && (
+      <FaCode className='w-30 h-30 absolute top-25'/>
     )}
     {subject == "Calculus" && (
       <TbMathIntegralX className='w-30 h-30 absolute top-25'/>
     )}
-    {subject == "x" && (
-      <div>x</div>
+    {subject == "Biology" && (
+      <FaDna className='w-30 h-30 absolute top-25'></FaDna>
     )}
     {subject == "Physics" && (
       <TbPrismLight className='w-30 h-30 absolute top-25'/>

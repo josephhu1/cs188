@@ -9,7 +9,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 
 const Home = () => {
     const subjects = [
-        {color: "bg-yellow-500", subject: "Testing"},
+        {color: "bg-yellow-500", subject: "ComSci"},
         {color: "bg-red-500", subject: "Calculus"},
         {color: "bg-green-500", subject: "Biology"},
         {color: "bg-blue-500", subject: "Physics"},
