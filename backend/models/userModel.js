@@ -35,7 +35,7 @@ const userInfo = mongoose.Schema(
             type: Number,
             default: 0,
           },
-          biology_data: {
+          biology_date: {
             type: String,
             default: "1/1/2000"
           },
@@ -43,7 +43,7 @@ const userInfo = mongoose.Schema(
             type: Number,
             default: 0,
           },
-          physics_data: {
+          physics_date: {
             type: String,
             default: "1/1/2000"
           },
